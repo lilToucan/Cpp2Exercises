@@ -1,0 +1,24 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "ObjectPooling",
+	"Description": "pool the object and a funny sound will come out ",
+	"Category": "Other",
+	"CreatedBy": "Coco",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": true,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "ObjectPooling",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}
