@@ -5,7 +5,9 @@
 // includes
 #include "ObjectPoolSubsystem.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FInactiveObjectsChange, TSubclassOf<AActor>, ActorClass,float ,NumInactiveObjects);
+class IObjectPoolable;
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FInactiveObjectsChange, TSubclassOf<AActor>, ActorClass, float,
+                                             NumInactiveObjects);
 
 UCLASS()
 class OBJECTPOOLING_API UObjectPoolSubsystem : public UWorldSubsystem
@@ -19,7 +21,7 @@ public:
 	TMap<TSubclassOf<AActor>,FObjectPool> ObjectPoolMap;
 
 	UFUNCTION(BlueprintCallable, Category = "Object Pool Subsystem")
-	void AddPool(TSubclassOf<AActor> ActorClass, int32 initialSize = 1);
+	void AddPool(TSubclassOf<AActor> ActorClass, int32 initialSize = 50);
 
 	UFUNCTION(BlueprintCallable, Category = "Object Pool Subsystem")
 	TScriptInterface<IObjectPoolable> GetActor(TSubclassOf<AActor> ActorClass);

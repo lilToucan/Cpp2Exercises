@@ -1,6 +1,7 @@
 #include "ObjectPoolSubsystem.h"
 // includes
 #include "FObjectPool.h"
+#include "ObjectPoolable.h"
 // includes
 
 void UObjectPoolSubsystem::AddPool(TSubclassOf<AActor> ActorClass, int32 initialSize)
