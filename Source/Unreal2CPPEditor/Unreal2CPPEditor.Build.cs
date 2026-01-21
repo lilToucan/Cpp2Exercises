@@ -21,7 +21,7 @@ public class Unreal2CPPEditor : ModuleRules
             "Slate"
         });
 
-        PrivateDependencyModuleNames.AddRange(new string[] { "Unreal2CPP", "UnrealEd", "Slate", "SlateCore" });
+        PrivateDependencyModuleNames.AddRange(new string[] { "Unreal2CPP", "UnrealEd", "Slate", "SlateCore", "DeveloperSettings" });
 
         PublicIncludePaths.AddRange(new string[] {
             "Unreal2CPP",

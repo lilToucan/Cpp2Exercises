@@ -8,18 +8,21 @@ public class ObjectPooling : ModuleRules
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 		
-		PublicIncludePaths.AddRange(
-			new string[] {
-				// ... add public include paths required here ...
+		PublicIncludePaths.AddRange
+		(
+			new string[] 
+			{
 			}
-			);
+		);
 				
 		
-		PrivateIncludePaths.AddRange(
-			new string[] {
-				// ... add other private include paths required here ...
+		PrivateIncludePaths.AddRange
+		(
+			new string[] 
+			{
+				
 			}
-			);
+		);
 			
 		
 		PublicDependencyModuleNames.AddRange(
@@ -38,7 +41,7 @@ public class ObjectPooling : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
-				// ... add private dependencies that you statically link with here ...	
+				"DeveloperSettings"
 			}
 			);
 		
