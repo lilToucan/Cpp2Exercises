@@ -6,6 +6,7 @@ ALambdaActor::ALambdaActor()
 	PrimaryActorTick.bCanEverTick = true;
 }
 
+
 void ALambdaActor::BeginPlay()
 {
 	Super::BeginPlay();
@@ -126,7 +127,10 @@ void ALambdaActor::AsyncFindPrimeNumbers()
 			      //(|ex i = 4 & j = 2,3  the  i%2 == 0 therefore not prime| | i = 7 j= 2,3,4,5,6 I%J != 0 |)
 			      {
 				      if (i % j == 0)
+				      {
 					      isPrime = false;
+					      break;
+				      }
 			      }
 
 			      if (isPrime)
@@ -164,4 +168,89 @@ void ALambdaActor::AsyncGenerateInventory()
 void ALambdaActor::AsyncSortInventory()
 {
 	AsyncThread([this]() { Inventory.Sort(); });
+}
+
+void ALambdaActor::AsyncFindEnemies()
+{
+	Async(EAsyncExecution::Thread, [this]()
+	      {
+		      int numberOfEnemiesNearUs = 0;
+		      TArray<FVector> EnemiesPositionsTemp;
+		      for (int i = 0; i < 50000; i++)
+		      {
+			      float Floati = i;
+			      FVector Position = FVector(i * FMath::Cos(Floati * i), 0, i * FMath::Sin(Floati * i));
+			      float DistanceSqrd = FVector::DistSquared(Position, FVector(0, 0, 0));
+			      EnemiesPositionsTemp.Add(Position);
+			      if (DistanceSqrd <= 1500 * 1500)
+				      numberOfEnemiesNearUs++;
+		      }
+
+		      AsyncTask(ENamedThreads::GameThread,
+		                [this, numberOfEnemiesNearUs, EnemiesTemp = MoveTemp(EnemiesPositionsTemp)]()mutable
+		                {
+			                EnemiesNearOrigin = numberOfEnemiesNearUs;
+			                Swap(EnemiesPositions, EnemiesTemp);
+
+			                Async(EAsyncExecution::ThreadPool, [ y = MoveTemp(EnemiesTemp)]()
+			                {
+			                });
+		                }
+		      );
+	      }
+	);
+}
+
+void ALambdaActor::AsyncFillLore()
+{
+	Async(EAsyncExecution::Thread, [this]()
+	      {
+		      FString LoreAsync;
+		      for (int i = 1; i <= 20000; i++)
+		      {
+			      LoreAsync.AppendInt(i);
+			      LoreAsync.Append("-");
+		      }
+		      LoreAsync = LoreAsync.Reverse();
+
+		      AsyncTask(ENamedThreads::GameThread, [this, LoreAsync]()mutable
+		                {
+			                Lore = LoreAsync;
+		                }
+		      );
+	      }
+	);
+}
+
+void ALambdaActor::AsyncWeatherReportNotFromJojo()
+{
+	Async(EAsyncExecution::Thread, [this]()
+	      {
+		      TArray<float> WeatherDataArray;
+		      FWeatherData WeatherDataStruct = FWeatherData();
+		      WeatherDataStruct.MaxTemp = -11.f;
+		      WeatherDataStruct.MinTemp = 41.f;
+		      WeatherDataStruct.AverageTemp = 0;
+		      for (int i = 0; i < 86.400; i++)
+		      {
+			      float rand = FMath::RandRange(-10.f, 40.f);
+			      WeatherDataArray.Add(rand);
+			      WeatherDataStruct.AverageTemp += rand;
+
+			      if (rand > WeatherDataStruct.MaxTemp)
+				      WeatherDataStruct.MaxTemp = rand;
+
+			      if (rand < WeatherDataStruct.MinTemp)
+				      // can't do else if here cause what if the first is -10 and then the rest aren't
+				      WeatherDataStruct.MinTemp = rand;
+		      }
+		      WeatherDataStruct.AverageTemp /= WeatherDataArray.Num();
+
+		      AsyncTask(ENamedThreads::GameThread, [this,WeatherDataStruct]()
+		                {
+			                WeatherData = WeatherDataStruct;
+		                }
+		      );
+	      }
+	);
 }
